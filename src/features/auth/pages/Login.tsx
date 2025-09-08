@@ -5,6 +5,7 @@ import { useAuth } from "../service/useAuth";
 import { useDispatch } from "react-redux";
 import { setToken } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 type FieldType = {
   email: string;
@@ -24,8 +25,8 @@ const Login = () => {
       }
     })
   };
-
-  const message = signIn.error?.response?.data?.message 
+  const error = signIn.error as AxiosError<{ message: string | string[] }>;
+  const message = error?.response?.data?.message 
 
   const errorMessage =
     typeof message === "string"
