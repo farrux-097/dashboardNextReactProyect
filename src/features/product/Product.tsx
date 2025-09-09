@@ -21,9 +21,9 @@ const products = [
 
 const Product = () => {
   return (
-    <div className="p-6 w-full">
+    <div className="p-6 w-full ">
       <h2 className="text-2xl font-bold mb-4">Mahsulotlar</h2>
-      <div className="overflow-x-auto rounded-xl shadow">
+      <div className="overflow-x-auto rounded-xl shadow-xl">
         <table className="w-full border border-gray-200">
           <thead className="bg-gray-100 text-left">
             <tr>
