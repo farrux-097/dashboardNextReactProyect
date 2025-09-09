@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom"
 
 const Sidebar = () => {
   return (
-    <div className="w-[250px] h-screen bg-slate-300 text-gray-500 shadow-md">
+    <div className="w-[250px] h-screen bg-gray-300 text-gray-500 shadow-md">
       {/* Logo / Title */}
       <h2 className="font-bold ml-2 text-[24px] py-4">Dashboard</h2>
       <div className="w-full h-[1px] bg-gray-500"></div>
