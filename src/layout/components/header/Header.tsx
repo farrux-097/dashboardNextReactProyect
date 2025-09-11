@@ -1,7 +1,11 @@
 import { memo, useState, useRef, useEffect } from "react"
-import { Bell, User, Settings, LogOut } from "lucide-react"
+import { Bell, User, Settings, LogOut, Menu as MenuIcon } from "lucide-react"
 
-const Header = () => {
+interface HeaderProps {
+  onMenuToggle?: () => void
+}
+
+const Header = ({ onMenuToggle }: HeaderProps) => {
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -12,43 +16,53 @@ const Header = () => {
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
+    return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
   return (
-    <header className="flex items-center justify-between px-6 py-3.5 border-b-2 border-gray-500 relative">
-      <div className="text-xl font-bold text-gray-500">
-        Dashboard
+    <header
+      className="flex items-center justify-between px-4 sm:px-6 py-3
+                 bg-white/80 backdrop-blur-md border-b border-gray-200
+                 shadow-md sticky top-0 z-40"
+    >
+      <div className="flex items-center gap-3">
+        <button
+          className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition"
+          onClick={onMenuToggle}
+        >
+          <MenuIcon className="w-6 h-6 text-gray-700" />
+        </button>
+        <span className="text-xl font-bold text-gray-800 tracking-wide">
+          Dashboard
+        </span>
       </div>
       <div className="flex items-center gap-4">
-        <button className="relative p-2 rounded-full hover:bg-gray-200">
-          <Bell className="h-6 w-6 text-gray-600" />
-          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span>
+        <button className="relative p-2 rounded-full hover:bg-gray-100 transition">
+          <Bell className="h-6 w-6 text-gray-700" />
+          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500" />
         </button>
 
-        <div
-          ref={menuRef}
-          className="relative"
-        >
+        <div ref={menuRef} className="relative">
           <div
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-2 cursor-pointer hover:opacity-80"
+            className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
           >
-            <User className="h-8 w-8 rounded-full bg-gray-500 text-white p-1" />
-            <span className="hidden sm:block font-medium text-gray-500">
+            <User className="h-8 w-8 rounded-full bg-gray-300 text-gray-800 p-1" />
+            <span className="hidden sm:block font-medium text-gray-800">
               Farrux
             </span>
           </div>
+
           {open && (
             <div
-              className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-200 animate-fadeIn z-50"
+              className="absolute right-0 mt-2 w-44
+                         bg-white rounded-xl shadow-xl border border-gray-200
+                         z-50"
             >
-              <button className="flex w-full items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-xl">
+              <button className="flex w-full items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-xl transition">
                 <Settings className="w-4 h-4" /> Settings
               </button>
-              <button className="flex w-full items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-100 rounded-b-xl">
+              <button className="flex w-full items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-100 rounded-b-xl transition">
                 <LogOut className="w-4 h-4" /> Logout
               </button>
             </div>

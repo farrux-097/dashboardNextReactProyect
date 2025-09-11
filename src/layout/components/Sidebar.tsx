@@ -1,54 +1,50 @@
-import { ChartColumn, Package, Users } from "lucide-react"
 import { memo } from "react"
-import { NavLink } from "react-router-dom"
+import { Layout, Menu } from "antd"
+import {
+  BarChartOutlined,
+  UserOutlined,
+  AppstoreOutlined,
+} from "@ant-design/icons"
+import { useNavigate, useLocation } from "react-router-dom"
+
+const { Sider } = Layout
 
 const Sidebar = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   return (
-    <div className="w-[250px] h-screen bg-gray-300 text-gray-500 border-r-1 shadow-md">
-      <h2 className="font-bold ml-2 text-[24px] py-4">Dashboard</h2>
-      <div className="w-full h-[1px] bg-gray-500"></div>
-      <ul className="mt-5">
-        <li>
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? "py-3 pl-2 border-l-4 border-blue-500 text-blue-500 mb-2 flex items-center gap-2 hover:bg-gray-100"
-                : "py-3 pl-2 border-l-4 border-transparent mb-2 flex items-center gap-2 hover:bg-gray-100"
-            }
-          >
-            <ChartColumn />
-            <span>Statistic</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/user"
-            className={({ isActive }) =>
-              isActive
-                ? "py-3 pl-2 border-l-4 border-blue-500 text-blue-500 mb-2 flex items-center gap-2 hover:bg-gray-100"
-                : "py-3 pl-2 border-l-4 border-transparent mb-2 flex items-center gap-2 hover:bg-gray-100"
-            }
-          >
-            <Users />
-            <span>User</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/product"
-            className={({ isActive }) =>
-              isActive
-                ? "py-3 pl-2 border-l-4 border-blue-500 text-blue-500 mb-2 flex items-center gap-2 hover:bg-gray-100"
-                : "py-3 pl-2 border-l-4 border-transparent mb-2 flex items-center gap-2 hover:bg-gray-100"
-            }
-          >
-            <Package />
-            <span>Product</span>
-          </NavLink>
-        </li>
-      </ul>
-    </div>
+    <Sider
+      width={250}
+      breakpoint="lg"
+      collapsedWidth="0"
+      style={{
+        background: "#fff",
+        position: "fixed",    // ← qotib turadi
+        left: 0,
+        top: 0,
+        bottom: 0,
+        boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
+        zIndex: 100,
+      }}
+    >
+      <div
+        className="h-16 flex items-center justify-center text-indigo-600 text-2xl font-bold"
+      >
+        Dashboard
+      </div>
+
+      <Menu
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        onClick={(info) => navigate(info.key)}
+        items={[
+          { key: "/", icon: <BarChartOutlined />, label: "Statistic" },
+          { key: "/user", icon: <UserOutlined />, label: "User" },
+          { key: "/product", icon: <AppstoreOutlined />, label: "Product" },
+        ]}
+      />
+    </Sider>
   )
 }
 

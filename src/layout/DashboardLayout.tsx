@@ -1,23 +1,40 @@
 import { memo } from "react"
+import { Layout } from "antd"
 import Sidebar from "./components/Sidebar"
-import { Outlet } from "react-router-dom"
 import Header from "./components/header/Header"
+import { Outlet } from "react-router-dom"
+
+const { Content } = Layout
 
 const DashboardLayout = () => {
   return (
-    <div className="flex">
-      <div className="w-[250px] h-screen fixed left-0 top-0">
-        <Sidebar />
-      </div>
-      <div className="flex-1 ml-[250px] flex flex-col h-screen">
-        <div className="sticky top-0 z-10 bg-white shadow">
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sidebar />
+      <Layout
+        style={{
+          marginLeft: 250,
+          background: "#f5f6fa",
+        }}
+      >
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 100,
+          }}
+        >
           <Header />
         </div>
-        <main className="flex-1 overflow-y-auto p-5 bg-slate-50">
+        <Content
+          style={{
+            padding: "24px",
+            minHeight: "calc(100vh - 64px)",
+          }}
+        >
           <Outlet />
-        </main>
-      </div>
-    </div>
+        </Content>
+      </Layout>
+    </Layout>
   )
 }
 
