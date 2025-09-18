@@ -1,6 +1,5 @@
 import { lazy } from "react";
 import { useRoutes } from "react-router-dom";
-import Product from "../features/product/pages/Product";
 
 // Layout
 const DashboardLayout = lazy(() => import("../layout/DashboardLayout"));
@@ -17,6 +16,8 @@ const Statistic = lazy(() => import("../features/statistic/Statistic"));
 const Header = lazy(() => import("../layout/components/header/Header"));
 const Categories = lazy(() => import("../features/product/pages/Categories"));
 const Dashboard = lazy(() => import("../features/product/pages/Dashboard"));
+const Profile= lazy(() => import("../features/profile/Profile"));
+const Product= lazy(() => import("../features/product/pages/Product"));
 
 
 const AppRoutes = () => {
@@ -31,6 +32,7 @@ const AppRoutes = () => {
           children: [
             { index: true, element: <Statistic /> },
             { path: "user", element: <User /> },
+            { path: "profile", element: <Profile/> },
             {
               path: "product",
               element: <Product />,

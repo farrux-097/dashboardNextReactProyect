@@ -6,10 +6,10 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons"
 import { useNavigate, useLocation } from "react-router-dom"
-
+import { CircleUserRound } from 'lucide-react';
 const { Sider } = Layout
 
-const Sidebar = () => {
+const Sidebar = ({ data }: { data: any }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -20,7 +20,7 @@ const Sidebar = () => {
       collapsedWidth="0"
       style={{
         background: "#fff",
-        position: "fixed",    // ← qotib turadi
+        position: "fixed",
         left: 0,
         top: 0,
         bottom: 0,
@@ -28,12 +28,15 @@ const Sidebar = () => {
         zIndex: 100,
       }}
     >
-      <div
-        className="h-16 flex items-center justify-center text-indigo-600 text-2xl font-bold"
-      >
-        Dashboard
+    <div className="flex items-center text-black gap-3 px-5 mt-2">
+        <div className="size-10 bg-gray-300 rounded-full text-gray-900 grid place-items-center font-bold">
+          {data?.fname.slice(0, 1)}
+        </div>
+        <div className="flex flex-col">
+          <b>{data?.fname}</b>
+          <small>{data?.role || "Admin"}</small>
+        </div>
       </div>
-
       <Menu
         mode="inline"
         selectedKeys={[location.pathname]}
@@ -42,6 +45,7 @@ const Sidebar = () => {
           { key: "/", icon: <BarChartOutlined />, label: "Statistic" },
           { key: "/user", icon: <UserOutlined />, label: "User" },
           { key: "/product", icon: <AppstoreOutlined />, label: "Product" },
+          { key: "/profile", icon: <CircleUserRound />, label: "Profile" },
         ]}
       />
     </Sider>

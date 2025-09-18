@@ -1,11 +1,15 @@
 import { memo, useState, useRef, useEffect } from "react"
-import { Bell, User, Settings, LogOut, Menu as MenuIcon } from "lucide-react"
+import { Bell, Settings, LogOut, Menu as MenuIcon } from "lucide-react"
 
 interface HeaderProps {
   onMenuToggle?: () => void
+  data: {
+    fname: string
+    role?: string
+  }
 }
 
-const Header = ({ onMenuToggle }: HeaderProps) => {
+const Header = ({ onMenuToggle, data }: HeaderProps) => {
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -20,11 +24,9 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
   }, [])
 
   return (
-    <header
-      className="flex items-center justify-between px-4 sm:px-6 py-3
-                 bg-white/80 backdrop-blur-md border-b border-gray-200
-                 shadow-md sticky top-0 z-40"
-    >
+    <header className="flex items-center justify-between px-4 sm:px-6 py-3
+                       bg-white/80 backdrop-blur-md border-b border-gray-200
+                       shadow-md sticky top-0 z-40">
       <div className="flex items-center gap-3">
         <button
           className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition"
@@ -36,6 +38,7 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
           Dashboard
         </span>
       </div>
+
       <div className="flex items-center gap-4">
         <button className="relative p-2 rounded-full hover:bg-gray-100 transition">
           <Bell className="h-6 w-6 text-gray-700" />
@@ -47,18 +50,20 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
             onClick={() => setOpen(!open)}
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
           >
-            <User className="h-8 w-8 rounded-full bg-gray-300 text-gray-800 p-1" />
-            <span className="hidden sm:block font-medium text-gray-800">
-              Farrux
-            </span>
+            <div className="flex items-center text-black gap-3 px-5 mt-2">
+              <div className="size-10 bg-gray-300 rounded-full text-gray-900 grid place-items-center font-bold">
+                {data?.fname?.slice(0, 1)}
+              </div>
+              <div className="flex flex-col">
+                <b>{data?.fname}</b>
+                <small>{data?.role}</small>
+              </div>
+            </div>
           </div>
 
           {open && (
-            <div
-              className="absolute right-0 mt-2 w-44
-                         bg-white rounded-xl shadow-xl border border-gray-200
-                         z-50"
-            >
+            <div className="absolute right-0 mt-2 w-44
+                            bg-white rounded-xl shadow-xl border border-gray-200 z-50">
               <button className="flex w-full items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-xl transition">
                 <Settings className="w-4 h-4" /> Settings
               </button>

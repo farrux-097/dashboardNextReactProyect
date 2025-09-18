@@ -1,17 +1,17 @@
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { getLocal, removeLocal, setLocal } from "../../../shared/helper";
 
 interface IinitialState {
   token: string | null;
-  user: any;
+  user: any | null;
   key: string;
 }
 
-const savedUser = localStorage.getItem("user")
+const userLocal = getLocal("user");
 
 const initialState: IinitialState = {
   token: localStorage.getItem("token") || null,
-  user: savedUser ? JSON.parse(savedUser) : null,
+  user: userLocal ? userLocal : null,
   key: "",
 };
 
@@ -35,15 +35,16 @@ export const authSlice = createSlice({
     },
     setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(state.user))
+      setLocal("user", JSON.stringify(state.user));
     },
     removeUser: (state) => {
       state.user = null;
-      localStorage.removeItem("user")
+      removeLocal("user");
     },
   },
 });
 
-export const { removeToken, setToken, removeKey, setKey, removeUser, setUser } =
+export const { setToken, removeToken, setKey, removeKey, setUser, removeUser } =
   authSlice.actions;
+
 export default authSlice.reducer;
