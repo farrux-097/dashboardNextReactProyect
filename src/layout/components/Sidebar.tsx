@@ -1,55 +1,48 @@
-import { memo } from "react"
-import { Layout, Menu } from "antd"
-import {
-  BarChartOutlined,
-  UserOutlined,
-  AppstoreOutlined,
-} from "@ant-design/icons"
-import { useNavigate, useLocation } from "react-router-dom"
-import { CircleUserRound } from 'lucide-react';
-const { Sider } = Layout
+import { memo } from "react";
+import { NavLink } from "react-router-dom";
+import { BarChart2, Users, ShoppingBag } from "lucide-react";
 
-const Sidebar = ({ data }: { data: any }) => {
-  const navigate = useNavigate()
-  const location = useLocation()
+const Sidebar = () => {
+  const links = [
+    { to: "", label: "Statistics", icon: <BarChart2 size={18} /> },
+    { to: "user", label: "Users", icon: <Users size={18} /> },
+    { to: "product", label: "Products", icon: <ShoppingBag size={18} /> },
+  ];
 
   return (
-    <Sider
-      width={250}
-      breakpoint="lg"
-      collapsedWidth="0"
-      style={{
-        background: "#fff",
-        position: "fixed",
-        left: 0,
-        top: 0,
-        bottom: 0,
-        boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
-        zIndex: 100,
-      }}
-    >
-    <div className="flex items-center text-black gap-3 px-5 mt-2">
-        <div className="size-10 bg-gray-300 rounded-full text-gray-900 grid place-items-center font-bold">
-          {data?.fname.slice(0, 1)}
-        </div>
-        <div className="flex flex-col">
-          <b>{data?.fname}</b>
-          <small>{data?.role || "Admin"}</small>
-        </div>
+    <aside className="w-[250px] h-screen bg-slate-900 text-white flex flex-col">
+      <div className="px-6 py-4 tracking-wide text-xl font-bold border-b border-slate-700">
+        E-commerce
       </div>
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        onClick={(info) => navigate(info.key)}
-        items={[
-          { key: "/", icon: <BarChartOutlined />, label: "Statistic" },
-          { key: "/user", icon: <UserOutlined />, label: "User" },
-          { key: "/product", icon: <AppstoreOutlined />, label: "Product" },
-          { key: "/profile", icon: <CircleUserRound />, label: "Profile" },
-        ]}
-      />
-    </Sider>
-  )
-}
+      <nav className="flex-1 mt-4">
+        <ul className="space-y-1">
+          {links.map((link) => (
+            <li key={link.to}>
+              <NavLink
+                to={link.to}
+                end
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-6 py-3 text-sm font-medium transition-colors
+                  ${
+                    isActive
+                      ? "bg-slate-800 text-blue-400 border-r-4 border-blue-500"
+                      : "text-gray-300 hover:bg-slate-800 hover:text-white"
+                  }`
+                }
+              >
+                {link.icon}
+                {link.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-export default memo(Sidebar)
+      <div className="px-6 py-4 border-t border-slate-700 text-xs text-gray-400">
+        © 2025 Dashboard
+      </div>
+    </aside>
+  );
+};
+
+export default memo(Sidebar);

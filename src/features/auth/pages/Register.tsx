@@ -29,7 +29,7 @@ const Register = () => {
     })
   };
 
-  const message = signUp.error?.response?.data?.message 
+  const message = signUp.error?.response?.data?.message
 
   const errorMessage =
     typeof message === "string"

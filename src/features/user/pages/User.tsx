@@ -137,7 +137,6 @@ const User = () => {
         },
         {
             title: "Action",
-
             key: "action",
             width: 180,
             render: (_: any) => (
@@ -155,7 +154,7 @@ const User = () => {
 
     return (
         <div className="p-2 w-full">
-            <h2 className="text-2xl font-bold mb-6 text-gray-900">Users</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-900">User Management</h2>
             <Table
                 columns={columns}
                 dataSource={users}

@@ -2,10 +2,9 @@ import { memo } from "react";
 import type { FormProps } from "antd";
 import { Alert, Button, Form, Input } from "antd";
 import { useAuth } from "../service/useAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { removeUser, setToken } from "../store/authSlice";
+import { useDispatch } from "react-redux";
+import { setToken, removeUser } from "../store/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import type { RootState } from "../../../app/store";
 
 type FieldType = {
   email: string;
@@ -16,19 +15,24 @@ const Login = () => {
   const { signIn } = useAuth();
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {user} = useSelector((state: RootState) => state.auth)
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     signIn.mutate(values, {
       onSuccess: (res) => {
-        dispatch(setToken(res.data))
-        dispatch(removeUser())
-        navigate("/")
+        dispatch(setToken(res.data.accessToken))
+        if (res.data.user.role === "user") {
+          open(
+            `https://next-project-2-part.vercel.app/verify?q=${btoa(JSON.stringify(values))}`
+          );
+        } else {
+          navigate("/");
+        }
+        dispatch(removeUser());
       }
     })
   };
 
-  const message = signIn.error?.response?.data?.message 
+  const message = signIn.error?.response?.data?.message
 
   const errorMessage =
     typeof message === "string"
@@ -44,7 +48,6 @@ const Login = () => {
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical"
-          initialValues={user ? {email: user.email, password: user.password} : {}}
         >
           <Form.Item<FieldType>
             label="Email"
@@ -72,6 +75,7 @@ const Login = () => {
             </Button>
           </Form.Item>
           <Link to={"/register"}>Register</Link>
+
         </Form>
       </div>
     </div>
