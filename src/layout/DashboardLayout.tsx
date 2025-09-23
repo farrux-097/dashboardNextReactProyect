@@ -5,39 +5,60 @@ import { useDispatch } from 'react-redux';
 import { useAuth } from '../features/auth/service/useAuth';
 import { removeToken } from '../features/auth/store/authSlice';
 
-
 const DashboardLayout = () => {
-
-
-  const { getProfile } = useAuth()
-  const { isError, data } = getProfile()
-  const dispatch = useDispatch()
+  const { getProfile } = useAuth();
+  const { isError, data } = getProfile();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isError) {
-      dispatch(removeToken())
+      dispatch(removeToken());
     }
-  }, [isError])
-
+  }, [isError, dispatch]);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-64 bg-gray-900 text-white flex flex-col">
-        <div className="flex-1 overflow-y-auto">
-          <Sidebar />
-        </div>
+    <div className="flex bg-gray-50">
+      {/* === Sidebar: fixed, chap tomonda qotadi === */}
+      <aside
+        className="
+          fixed top-0 left-0
+          w-[240px] h-screen
+          bg-white border-r border-gray-200 shadow-md
+        "
+      >
+        <Sidebar />
       </aside>
 
-      <div className="flex flex-col flex-1">
-        <header className="bg-white shadow px-6 py-4 flex items-center justify-between">
-          <h1 className="text-lg font-semibold text-gray-700">Dashboard</h1>
-          <span className="text-sm text-gray-500">Welcome, <span className="font-medium text-gray-800">
-            {data?.data?.fname || "Guest"}
-          </span></span>
+      {/* === Main kontent (scroll faqat shu qismda) === */}
+      <div
+        className="
+          flex flex-col flex-1
+          ml-[240px]        /* Sidebar kengligi bo‘shliq */
+          min-h-screen
+        "
+      >
+        {/* Header: yuqorida qotadi */}
+        <header
+          className="
+            bg-white border-b border-gray-200
+            px-6 py-4 flex items-center justify-between
+            sticky top-0 z-40 shadow-sm
+          "
+        >
+          <h1 className="text-lg font-semibold text-gray-800 tracking-wide">
+            Dashboard
+          </h1>
+          <span className="text-sm text-gray-600">
+            Welcome,&nbsp;
+            <span className="font-medium text-gray-800">
+              {data?.data?.fname || 'Guest'}
+            </span>
+          </span>
         </header>
 
-        <main className="flex-1 p-6">
-          <div className="bg-white rounded-2xl shadow-md p-6">
+        {/* Scrollable main area */}
+        <main className="flex-1 p-6 bg-gray-50 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-md p-6">
             <Outlet />
           </div>
         </main>

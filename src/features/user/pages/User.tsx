@@ -153,20 +153,23 @@ const User = () => {
     ];
 
     return (
-        <div className="p-2 w-full">
+        <div className="p-2 w-[700px]">
             <h2 className="text-2xl font-bold mb-6 text-gray-900">User Management</h2>
             <Table
-                columns={columns}
-                dataSource={users}
-                bordered
-                tableLayout="fixed"
-                pagination={{ pageSize: 5 }}
-                rowClassName={(_, index) =>
-                    index % 2 === 0
-                        ? "bg-white hover:bg-gray-50 transition-colors"
-                        : "bg-gray-50 hover:bg-gray-100 transition-colors"
-                }
-            />
+  columns={columns}
+  dataSource={users}
+  bordered
+  tableLayout="fixed"
+  // ✅ maksimal kenglikni cheklash
+  className="max-w-[700px] mx-auto rounded-lg shadow-sm"
+  pagination={{ pageSize: 5 }}
+  rowClassName={(_, index) =>
+    index % 2 === 0
+      ? "bg-white hover:bg-gray-50 transition-colors"
+      : "bg-gray-50 hover:bg-gray-100 transition-colors"
+  }
+/>
+
         </div>
     );
 };
